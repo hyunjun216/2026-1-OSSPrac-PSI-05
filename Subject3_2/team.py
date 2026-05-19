@@ -209,5 +209,34 @@ def delete_member(member_id):
 def page_not_found(e):
     return render_template('404.html'), 404
 
+import json
+import os
+
+MESSAGES_FILE = 'messages.json'
+
+def load_messages():
+    if not os.path.exists(MESSAGES_FILE):
+        return []
+    with open(MESSAGES_FILE, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def save_message(msg):
+    messages = load_messages()
+    messages.append(msg)
+    with open(MESSAGES_FILE, 'w', encoding='utf-8') as f:
+        json.dump(messages, f, ensure_ascii=False, indent=2)
+
+@app.route('/messages', methods=['GET', 'POST'])
+def messages():
+    if request.method == 'POST':
+        msg = {
+            'name': request.form.get('name'),
+            'email': request.form.get('email'),
+            'message': request.form.get('message')
+        }
+        save_message(msg)
+        return redirect('/messages')
+    all_messages = load_messages()
+    return render_template('messages.html', messages=all_messages)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

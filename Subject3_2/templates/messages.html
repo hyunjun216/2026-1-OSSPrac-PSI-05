@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">방문자 메시지 <span class="text-orange">남기기</span></h2>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-6">
+            <form method="POST" action="/messages">
+                <div class="mb-3">
+                    <label class="form-label">이름</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">이메일</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">메시지</label>
+                    <textarea name="message" class="form-control" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-orange w-100">메시지 전송</button>
+            </form>
+        </div>
+    </div>
+
+    <h4 class="text-center mb-4">남겨진 메시지</h4>
+    <div class="row justify-content-center">
+        {% for msg in messages %}
+        <div class="col-md-6 mb-3">
+            <div class="card bg-dark border-secondary p-3">
+                <strong class="text-orange">{{ msg.name }}</strong>
+                <small class="text-muted"> ({{ msg.email }})</small>
+                <p class="mt-2 mb-0">{{ msg.message }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -366,6 +366,9 @@
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/contact' %}active{% endif %}" href="/contact">Contact</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/messages' %}active{% endif %}" href="/messages">Messages</a>
+                    </li>
                 </ul>
                 <div class="d-flex align-items-center gap-2">
                     <button class="theme-toggle" id="darkModeToggle" title="Toggle theme">
@@ -422,6 +425,7 @@
                     <a href="/">Team</a>
                     <a href="/input">Projects</a>
                     <a href="/contact">Contact</a>
+                    
                 </div>
                 <span class="text-muted small mt-2 mt-md-0">&copy; 2026 OSS Team. All rights reserved.</span>
             </div>
