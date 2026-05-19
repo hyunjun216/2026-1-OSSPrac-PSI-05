@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" data-bs-theme="light">
+<html lang="ko" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,33 +29,110 @@
         body {
             font-family: 'Pretendard', -apple-system, sans-serif;
             overflow-x: hidden;
+            background-color: #0a0a0a;
+        }
+        [data-bs-theme="light"] body {
             background-color: #FFF3EA;
         }
-        body::before {
-            content: '';
+        .mouse-glow { position: fixed !important; }
+        .scroll-top-btn { position: fixed !important; }
+        .scroll-progress { position: fixed !important; }
+
+        /* ── 3D Floating Blob Background ── */
+        .blob-bg {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background:
-                radial-gradient(ellipse 110% 80% at 50% -15%, rgba(232,101,26,0.45) 0%, rgba(255,140,66,0.15) 40%, transparent 65%),
-                radial-gradient(ellipse 80% 60% at 100% 5%, rgba(255,120,50,0.30) 0%, transparent 55%),
-                radial-gradient(ellipse 70% 55% at 0% 45%, rgba(232,101,26,0.20) 0%, transparent 50%),
-                radial-gradient(ellipse 60% 45% at 80% 95%, rgba(255,160,80,0.18) 0%, transparent 50%),
-                radial-gradient(ellipse 40% 30% at 30% 80%, rgba(232,101,26,0.10) 0%, transparent 40%);
             pointer-events: none;
             z-index: 0;
+            overflow: hidden;
+            filter: blur(60px) saturate(1.5);
         }
-        body > *:not(script) { position: relative; z-index: 1; }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            will-change: transform;
+            /* Intro: start invisible & tiny, then pop in */
+            opacity: 0;
+            transform: scale(0);
+            animation: blobIntro 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .blob-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle at 35% 35%, rgba(255,180,120,0.9), rgba(232,101,26,0.6) 50%, transparent 70%);
+            top: -10%; right: -5%;
+            animation: blobIntro 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       bMove1 20s ease-in-out 1.8s infinite;
+        }
+        .blob-2 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle at 40% 40%, rgba(255,140,66,0.7), rgba(200,77,10,0.4) 50%, transparent 70%);
+            top: 30%; left: -10%;
+            animation: blobIntro 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards,
+                       bMove2 25s ease-in-out 2s infinite;
+        }
+        .blob-3 {
+            width: 450px; height: 450px;
+            background: radial-gradient(circle at 30% 30%, rgba(255,200,150,0.8), rgba(232,101,26,0.5) 50%, transparent 70%);
+            bottom: -5%; right: 20%;
+            animation: blobIntro 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards,
+                       bMove3 22s ease-in-out 2.2s infinite;
+        }
+        .blob-4 {
+            width: 350px; height: 350px;
+            background: radial-gradient(circle at 45% 35%, rgba(255,160,80,0.6), rgba(180,60,5,0.3) 50%, transparent 70%);
+            top: 60%; left: 40%;
+            animation: blobIntro 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards,
+                       bMove4 18s ease-in-out 2.4s infinite;
+        }
+        .blob-5 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle at 35% 40%, rgba(255,220,180,0.7), rgba(255,140,66,0.4) 50%, transparent 70%);
+            top: 10%; left: 30%;
+            animation: blobIntro 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards,
+                       bMove5 28s ease-in-out 2.6s infinite;
+        }
+
+        /* Intro animation — blobs pop in from nothing */
+        @keyframes blobIntro {
+            0%   { opacity: 0; transform: scale(0) rotate(-30deg); }
+            60%  { opacity: 1; transform: scale(1.2) rotate(10deg); }
+            80%  { transform: scale(0.9) rotate(-5deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes bMove1 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25%  { transform: translate(-120px, 150px) scale(1.15) rotate(90deg); }
+            50%  { transform: translate(-60px, 250px) scale(0.9) rotate(180deg); }
+            75%  { transform: translate(80px, 100px) scale(1.1) rotate(270deg); }
+        }
+        @keyframes bMove2 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25%  { transform: translate(200px, -80px) scale(1.2) rotate(-90deg); }
+            50%  { transform: translate(150px, 120px) scale(0.85) rotate(-180deg); }
+            75%  { transform: translate(50px, -120px) scale(1.1) rotate(-270deg); }
+        }
+        @keyframes bMove3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33%  { transform: translate(-150px, -200px) scale(1.2); }
+            66%  { transform: translate(100px, -100px) scale(0.9); }
+        }
+        @keyframes bMove4 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50%  { transform: translate(-200px, -150px) scale(1.25); }
+        }
+        @keyframes bMove5 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33%  { transform: translate(150px, 100px) scale(1.15); }
+            66%  { transform: translate(-100px, 200px) scale(0.9); }
+        }
+
+        /* Theme adjustments */
+        [data-bs-theme="dark"] .blob-bg { opacity: 0.35; }
+        [data-bs-theme="light"] .blob-bg { opacity: 0.25; }
 
         [data-bs-theme="dark"] body {
             background-color: #0f0f0f;
-        }
-        [data-bs-theme="dark"] body::before {
-            background:
-                radial-gradient(ellipse 110% 80% at 50% -15%, rgba(232,101,26,0.25) 0%, rgba(255,140,66,0.08) 40%, transparent 65%),
-                radial-gradient(ellipse 80% 60% at 100% 5%, rgba(255,120,50,0.16) 0%, transparent 55%),
-                radial-gradient(ellipse 70% 55% at 0% 45%, rgba(232,101,26,0.10) 0%, transparent 50%),
-                radial-gradient(ellipse 60% 45% at 80% 95%, rgba(255,160,80,0.08) 0%, transparent 50%),
-                radial-gradient(ellipse 40% 30% at 30% 80%, rgba(232,101,26,0.05) 0%, transparent 40%);
         }
 
         /* ── Navbar ── */
@@ -214,6 +291,46 @@
             transform: translateY(-3px);
         }
 
+        /* ── Scroll Progress Bar ── */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--orange), var(--orange-light));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.05s linear;
+        }
+
+        /* ── Mouse Glow ── */
+        .mouse-glow {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(232,101,26,0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            transition: left 0.3s ease, top 0.3s ease, opacity 0.3s;
+            opacity: 0;
+        }
+        .mouse-glow.active { opacity: 1; }
+        [data-bs-theme="dark"] .mouse-glow {
+            background: radial-gradient(circle, rgba(232,101,26,0.08) 0%, transparent 70%);
+        }
+
+        /* ── Navbar Shrink ── */
+        .navbar-custom.scrolled {
+            padding-top: 4px !important;
+            padding-bottom: 4px !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .navbar-custom.scrolled .navbar-brand {
+            font-size: 1.1rem;
+        }
+
         /* ── Utility ── */
         .text-orange { color: var(--orange) !important; }
         .bg-orange-subtle { background: var(--orange-subtle); }
@@ -221,6 +338,15 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+
+    <!-- 3D Floating Blob Background -->
+    <div class="blob-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="blob blob-5"></div>
+    </div>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
@@ -243,13 +369,19 @@
                 </ul>
                 <div class="d-flex align-items-center gap-2">
                     <button class="theme-toggle" id="darkModeToggle" title="Toggle theme">
-                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
                     </button>
                     <a href="/input" class="btn btn-orange d-none d-lg-inline-block">Get Started</a>
                 </div>
             </div>
         </div>
     </nav>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Mouse Glow -->
+    <div class="mouse-glow" id="mouseGlow"></div>
 
     <!-- Spacer for fixed navbar -->
     <div style="height: 72px;"></div>
@@ -299,14 +431,13 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ── Dark mode with localStorage ──
+        // ── Dark mode with localStorage (default: dark) ──
         const toggleBtn = document.getElementById('darkModeToggle');
         const html = document.documentElement;
         const saved = localStorage.getItem('theme');
-        if (saved) {
-            html.setAttribute('data-bs-theme', saved);
-            toggleBtn.innerHTML = saved === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        }
+        const theme = saved || 'dark';
+        html.setAttribute('data-bs-theme', theme);
+        toggleBtn.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         toggleBtn.addEventListener('click', () => {
             const next = html.getAttribute('data-bs-theme') === 'light' ? 'dark' : 'light';
             html.setAttribute('data-bs-theme', next);
@@ -345,6 +476,34 @@
         document.querySelectorAll('.toast.show').forEach(el => {
             new bootstrap.Toast(el).show();
         });
+
+        // ── Scroll Progress Bar ──
+        const progressBar = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const scrollH = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollH > 0) {
+                progressBar.style.width = (window.scrollY / scrollH * 100) + '%';
+            }
+        });
+
+        // ── Mouse Glow ──
+        const glow = document.getElementById('mouseGlow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+            glow.classList.add('active');
+        });
+        document.addEventListener('mouseleave', () => {
+            glow.classList.remove('active');
+        });
+
+        // ── Navbar Shrink on Scroll ──
+        const navbar = document.querySelector('.navbar-custom');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // (Blob background is pure CSS — no JS needed)
     </script>
     {% block extra_js %}{% endblock %}
 </body>
