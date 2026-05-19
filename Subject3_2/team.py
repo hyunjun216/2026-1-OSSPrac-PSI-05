@@ -238,5 +238,15 @@ def messages():
         return redirect('/messages')
     all_messages = load_messages()
     return render_template('messages.html', messages=all_messages)
+
+@app.route('/messages/<int:msg_index>/delete', methods=['POST'])
+def delete_message(msg_index):
+    messages = load_messages()
+    if 0 <= msg_index < len(messages):
+        removed = messages.pop(msg_index)
+        with open(MESSAGES_FILE, 'w', encoding='utf-8') as f:
+            json.dump(messages, f, ensure_ascii=False, indent=2)
+        flash(f'{removed["name"]} 님의 메시지가 삭제되었습니다.', 'warning')
+    return redirect('/messages')
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

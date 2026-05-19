@@ -32,6 +32,12 @@
     <strong style="color: var(--orange);">{{ msg.name }}</strong>
     <small class="text-muted"> ({{ msg.email }})</small>
     <p class="mt-2 mb-0" style="color: inherit;">{{ msg.message }}</p>
+
+       <form action="/messages/{{ loop.index0 }}/delete" method="POST"
+          onsubmit="return confirm('정말 이 메시지를 삭제하시겠습니까?')"
+          class="mt-2 text-end">
+        <button type="submit" class="btn btn-sm btn-outline-danger">🗑 삭제</button>
+    </form>
 </div>
         </div>
         {% endfor %}
