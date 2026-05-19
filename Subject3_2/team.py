@@ -43,9 +43,9 @@ DEFAULT_MEMBERS = [
     {
         "id": 3,
         "name": "임여민",
-        "student_id": "20249012",
+        "student_id": "2022110326",
         "gender": "여성",
-        "department": "인공지능학과",
+        "department": "철학과",
         "languages": ["python", "sqldeveloper", "r"],
         "role": "데이터베이스 설계 및 데이터 처리",
         "intro": "데이터의 흐름을 분석하고 구조화하는 것을 좋아합니다. 프로젝트 내 DB 스키마 설계 및 효율적인 데이터 파이프라인 구축을 맡고 있습니다.",
@@ -249,4 +249,4 @@ def delete_message(msg_index):
         flash(f'{removed["name"]} 님의 메시지가 삭제되었습니다.', 'warning')
     return redirect('/messages')
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
